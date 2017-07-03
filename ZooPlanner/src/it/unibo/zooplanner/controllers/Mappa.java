@@ -5,6 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import fr.uga.pddl4j.encoding.CodedProblem;
+import fr.uga.pddl4j.parser.ErrorManager;
+import fr.uga.pddl4j.planners.ProblemFactory;
+import fr.uga.pddl4j.planners.hsp.HSP;
+import fr.uga.pddl4j.util.Plan;
 import it.unibo.zooplanner.models.Arco;
 import it.unibo.zooplanner.models.Nodo;
 
@@ -36,15 +41,15 @@ public class Mappa {
 	
 	public static void main(String[] args) {
 		
+	    final ProblemFactory factory = new ProblemFactory();
+	    
 		List<Nodo> nodi = new ArrayList<Nodo>();
 		List<Arco> archi = new ArrayList<Arco>();
 		List<String> gabbie = new ArrayList<String>();
 		
 		gabbie.addAll(Arrays.asList("entrata","lama","bar","orsi","leoni","coccodrilli","elefanti","tigri","scimmie", "picnic", "uccelli", "mammiferi", "rettili"));
-		
-		
-		Nodo[] e = new Nodo[13];
-		
+				
+		Nodo[] e = new Nodo[13];		
 		Nodo[] t = new Nodo[10];
 		Nodo[] i = new Nodo[2];
 		
@@ -92,7 +97,34 @@ public class Mappa {
 		for(Arco a: archi) {
 			a.Stampa();
 		}
+		//creare il problema, il dominio è in domain
 		
+		// Parse the domain and the problem
+	      ErrorManager errorManager = null ;//= factory.parse(domain, problem);
+	      if (!errorManager.isEmpty()) {
+	            errorManager.printAll();
+	            System.exit(0);
+	      }
+	      
+	      // Encode and simplify the planning problem in a compact representation
+	      final CodedProblem pb = factory.encode();
+	      if (!pb.isSolvable()) {
+	            System.out.println("goal can be simplified to FALSE. "
+	                            + "no search will solve it");
+	            System.exit(0);
+	      }
+		
+	      // Create the planner
+	      final HSP planner = new HSP();
+	      
+	      // Search for a solution plan
+	      final Plan plan = planner.search(pb);
+	      if (plan != null) {
+	             System.out.println(String.format("%nfound plan as follows:%n%n"));
+	             System.out.println(pb.toString(plan));
+	      } else {
+	    	  		System.out.append(String.format("%nno plan found%n%n"));
+	      }
 	}
 
 }
