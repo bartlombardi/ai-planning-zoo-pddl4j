@@ -1,5 +1,7 @@
 package it.unibo.zooplanner.controllers;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +49,8 @@ public class Mappa {
 		List<Arco> archi = new ArrayList<Arco>();
 		List<String> gabbie = new ArrayList<String>();
 		
+		String domain = Paths.get("domain/zoo-world.pddl").toString();
+		String problem = "";
 		gabbie.addAll(Arrays.asList("entrata","lama","bar","orsi","leoni","coccodrilli","elefanti","tigri","scimmie", "picnic", "uccelli", "mammiferi", "rettili"));
 				
 		Nodo[] e = new Nodo[13];		
@@ -100,11 +104,18 @@ public class Mappa {
 		//creare il problema, il dominio è in domain
 		
 		// Parse the domain and the problem
-	      ErrorManager errorManager = null ;//= factory.parse(domain, problem);
-	      if (!errorManager.isEmpty()) {
+	      ErrorManager errorManager;
+		try {
+			errorManager = factory.parse(domain, problem);
+			if (!errorManager.isEmpty()) {
 	            errorManager.printAll();
 	            System.exit(0);
-	      }
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	      
 	      
 	      // Encode and simplify the planning problem in a compact representation
 	      final CodedProblem pb = factory.encode();
