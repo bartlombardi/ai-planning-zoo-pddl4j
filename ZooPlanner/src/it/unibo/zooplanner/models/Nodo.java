@@ -10,9 +10,11 @@ public class Nodo {
 	
 	public Nodo() {}
 	
-	public Nodo(String nome,boolean gol) {
+	public Nodo(String nome,boolean gol,boolean partenza,boolean fine) {
 		this.nome = nome;
 		this.gol = gol;
+		this.partenza = partenza;
+		this.fine = fine;
 	}
 	
 	public String getNome() {
