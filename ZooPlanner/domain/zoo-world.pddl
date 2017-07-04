@@ -28,7 +28,6 @@
            (sentiero ?x ?y))
     :effect (and (not (in ?x)) (in ?y) (visited ?y) (not (not-visited ?y)) (not (not-complete)) (complete) ))
 
-
   ;;(:action finish-against
   ;;  :parameters (?x ?y)
   ;;  :precondition (and (in ?x) (finishing ?y) (not-visitedEdge ?y ?x) (visited ?y) (not-complete)
