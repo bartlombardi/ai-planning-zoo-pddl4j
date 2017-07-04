@@ -55,6 +55,8 @@ public class Mappa {
 		
 		
 		File domain_file = new File(DOMAIN_PATH + DOMAIN_NAME + PDDL_EXTENSION);
+
+		// Temporaneo, solo per vedere se funziona il planner
 		File problem_file = new File(DOMAIN_PATH + "zoo-problem1.pddl");
 		
 		
@@ -109,10 +111,7 @@ public class Mappa {
 		archi.add(new Arco("erba", i[1], e[10]));
 		archi.add(new Arco("sentiero", i[1], e[9]));
 		
-		/*
-		 * NON CANCELLARE IL CODICE COMMENTATO
-		 * 
-		 * 
+		
 		problem += "(define (problem " + problem_name + ")\n";
 		problem += "\t(:domain " + DOMAIN_NAME + ")\n";
 		
@@ -157,9 +156,18 @@ public class Mappa {
 		problem += "\t\t" + notazioni_arco + "\n";
 		problem += "\n\t\t" + notazioni_stati + "\n";
 		
-		problem = Paths.get("domain/zoo-problem1.pddl").toString();
+		String partenza = "";
+		for (int k = 0; k < e.length; k++) {
+			if (e[k].isPartenza()) {
+				partenza = e[k].getNome();
+			}
+		}
 		
-		System.out.println(problem);*/
+		problem += "\n\t\t(" + "visited " + partenza + ")\n";
+		
+		
+		System.out.println(problem);
+		
 				
 		// Parse the domain and the problem
 	    ErrorManager errorManager;
