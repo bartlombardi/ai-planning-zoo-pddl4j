@@ -1,6 +1,7 @@
 package it.unibo.zooplanner.controllers;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,10 @@ import it.unibo.zooplanner.models.Arco;
 import it.unibo.zooplanner.models.Nodo;
 
 public class Mappa {
+	public Mappa() {
+		
+	}
+	
 	public static void AssociaGabbia(Nodo[] e, List<String> gabbie) {
 		Random rand = new Random();
 		
@@ -48,7 +53,11 @@ public class Mappa {
 		List<Arco> archi = new ArrayList<Arco>();
 		List<String> gabbie = new ArrayList<String>();
 		
-		String domain = Paths.get(DOMAIN_PATH + DOMAIN_NAME + PDDL_EXTENSION).toString();
+		
+		File domain_file = new File(DOMAIN_PATH + DOMAIN_NAME + PDDL_EXTENSION);
+		File problem_file = new File(DOMAIN_PATH + "zoo-problem1.pddl");
+		
+		
 		String problem_name = DOMAIN_NAME + "-problem"; 
 		String problem = "";
 		gabbie.addAll(Arrays.asList("entrata", "lama", "bar", "orsi", 
@@ -60,11 +69,11 @@ public class Mappa {
 		Nodo[] t = new Nodo[10];
 		Nodo[] i = new Nodo[2];
 		
-		for(int k=0 ; k < t.length; k++) {
+		for(int k = 0; k < t.length; k++) {
 			t[k] = new Nodo("t" + k, false, false, false);
 		}
 		
-		for(int k=0 ; k < i.length; k++) {
+		for(int k = 0; k < i.length; k++) {
 			i[k] = new Nodo("i" + k, false, false, false);
 		}
 		
@@ -100,7 +109,10 @@ public class Mappa {
 		archi.add(new Arco("erba", i[1], e[10]));
 		archi.add(new Arco("sentiero", i[1], e[9]));
 		
-		
+		/*
+		 * NON CANCELLARE IL CODICE COMMENTATO
+		 * 
+		 * 
 		problem += "(define (problem " + problem_name + ")\n";
 		problem += "\t(:domain " + DOMAIN_NAME + ")\n";
 		
@@ -145,15 +157,14 @@ public class Mappa {
 		problem += "\t\t" + notazioni_arco + "\n";
 		problem += "\n\t\t" + notazioni_stati + "\n";
 		
-		System.out.println(problem);
+		problem = Paths.get("domain/zoo-problem1.pddl").toString();
 		
-		/*
-		//creare il problema, il dominio è in domain
-		
+		System.out.println(problem);*/
+				
 		// Parse the domain and the problem
 	    ErrorManager errorManager;
 		try {
-			errorManager = factory.parse(domain, problem);
+			errorManager = factory.parse(domain_file, problem_file);
 			if (!errorManager.isEmpty()) {
 	            errorManager.printAll();
 	            System.exit(0);
@@ -182,6 +193,6 @@ public class Mappa {
 			System.out.println(pb.toString(plan));
 		} else {
 			System.out.append(String.format("%nno plan found%n%n"));
-		}*/
+		}
 	}
 }
