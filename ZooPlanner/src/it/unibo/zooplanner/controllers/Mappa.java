@@ -33,19 +33,23 @@ public class Mappa {
 			// OK: schema corretto
 			
 			e[k] = new Nodo(gabbie.get(0), true, false, false);
-			gabbie.remove(0);
-			
+			gabbie.remove(0);	
 		}
 	}
 	
 	public static void main(String[] args) {
+		final String DOMAIN_PATH = "domain/";
+		final String DOMAIN_NAME = "zoo-world";
+		final String PDDL_EXTENSION = ".pddl";
+		
 	    final ProblemFactory factory = new ProblemFactory();
 	    
 		List<Nodo> nodi = new ArrayList<Nodo>();
 		List<Arco> archi = new ArrayList<Arco>();
 		List<String> gabbie = new ArrayList<String>();
 		
-		String domain = Paths.get("domain/zoo-world.pddl").toString();
+		String domain = Paths.get(DOMAIN_PATH + DOMAIN_NAME + PDDL_EXTENSION).toString();
+		String problem_name = DOMAIN_NAME + "-problem"; 
 		String problem = "";
 		gabbie.addAll(Arrays.asList("entrata", "lama", "bar", "orsi", 
 									"leoni", "coccodrilli", "elefanti", 
@@ -56,12 +60,12 @@ public class Mappa {
 		Nodo[] t = new Nodo[10];
 		Nodo[] i = new Nodo[2];
 		
-		for(int k=0 ; k<t.length; k++) {
-			t[k] = new Nodo("t"+k, false, false, false);
+		for(int k=0 ; k < t.length; k++) {
+			t[k] = new Nodo("t" + k, false, false, false);
 		}
 		
-		for(int k=0 ; k<i.length; k++) {
-			i[k] = new Nodo("i"+k, false, false, false);
+		for(int k=0 ; k < i.length; k++) {
+			i[k] = new Nodo("i" + k, false, false, false);
 		}
 		
 		Mappa.AssociaGabbia(e, gabbie);
@@ -96,10 +100,54 @@ public class Mappa {
 		archi.add(new Arco("erba", i[1], e[10]));
 		archi.add(new Arco("sentiero", i[1], e[9]));
 		
-		/*
-		for(Arco a: archi) {
-			a.Stampa();
+		
+		problem += "(define (problem " + problem_name + ")\n";
+		problem += "\t(:domain " + DOMAIN_NAME + ")\n";
+		
+		List<String> lista_nodi = new ArrayList<String>();
+		for (int k = 0; k < t.length; k++) {
+			lista_nodi.add(t[k].getNome());
 		}
+		
+		List<String> lista_incroci = new ArrayList<String>();
+		for (int k = 0; k < i.length; k++) {
+			lista_incroci.add(i[k].getNome());
+		}
+		
+		List<String> lista_gabbie = new ArrayList<String>();
+		for (int k = 0; k < e.length; k++) {
+			lista_gabbie.add(e[k].getNome());
+		}
+		
+		String obj_nodi = String.join(" ", lista_nodi);
+		String obj_gabbie = String.join(" ", lista_gabbie);
+		String obj_incroci = String.join(" ", lista_incroci);
+		
+		problem += "\t(:objects " + obj_nodi
+							+ " " + obj_incroci
+							+ " " + obj_gabbie
+							+ ")\n";
+		
+		problem += "\t(:init\n";
+		
+		List<String> lista_archi = new ArrayList<String>();
+		for (int k = 0; k < archi.size(); k++) {
+			lista_archi.add(archi.get(k).getNotazione());
+		}
+		String notazioni_arco = String.join("\n\t\t", lista_archi);
+		
+		List<String> lista_stati = new ArrayList<String>();
+		for (int k = 0; k < archi.size(); k++) {
+			lista_stati.add(archi.get(k).getStatoIniziale());
+		}
+		String notazioni_stati = String.join("\n\t\t", lista_stati);
+		
+		problem += "\t\t" + notazioni_arco + "\n";
+		problem += "\n\t\t" + notazioni_stati + "\n";
+		
+		System.out.println(problem);
+		
+		/*
 		//creare il problema, il dominio è in domain
 		
 		// Parse the domain and the problem
