@@ -186,7 +186,7 @@ public class Mappa {
 		final CodedProblem pb = factory.encode();
 		if (!pb.isSolvable()) {
 			System.out.println("goal can be simplified to FALSE. "
-		    + "no search will solve it");
+								+ "no search will solve it");
 		    
 			System.exit(0);
 		}

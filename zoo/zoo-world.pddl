@@ -3,14 +3,14 @@
   
   (:predicates (in ?x) (visited ?x) (not-visited ?x)
 	       (starting ?x) (finishing ?x) (complete) (not-complete)
-	       (sentiero ?x ?y) (erba ?x ?y) (visitedEdge ?x ?y) (not-visitedEdge ?x ?y))
+	       (sentiero ?x ?y) (erba ?x ?y) (cammello x? y?) (visitedEdge ?x ?y) (not-visitedEdge ?x ?y))
 
   (:action move-sentiero
     :parameters (?x ?y)
     :precondition (and (in ?x) (not-visitedEdge ?x ?y) (not-visitedEdge ?y ?x) (not-visited ?y) (not-complete)
 		       (sentiero ?x ?y))
     :effect (and (not (in ?x)) (in ?y) (visited ?y) (not (not-visited ?y)) (visitedEdge ?x ?y) (not (not-visitedEdge ?x ?y)) (visitedEdge ?y ?x) (not (not-visitedEdge ?y ?x))))
-
+    
   (:action move-erba
     :parameters (?x ?y)
     :precondition (and (in ?x) (not-complete)
