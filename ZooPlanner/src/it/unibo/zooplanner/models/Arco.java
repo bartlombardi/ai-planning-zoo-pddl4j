@@ -2,7 +2,7 @@ package it.unibo.zooplanner.models;
 
 
 public class Arco {
-	private final String NOT_VISITED = "not-VisidetEdge";
+	private final String NOT_VISITED = "not-visitedEdge";
 	
 	private Nodo n1;
     private Nodo n2;
