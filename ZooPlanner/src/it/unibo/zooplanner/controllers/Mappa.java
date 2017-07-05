@@ -27,7 +27,13 @@ public class Mappa {
 		for(int k = 0; k < e.length; k++) {
 			int value = rand.nextInt(gabbie.size());
 			
-			e[k] = new Nodo(gabbie.get(value), true, false, false);
+			if(k == 0) {
+				e[k] = new Nodo(gabbie.get(value), true, true, false);
+			}else if (k == (e.length - 1)) {
+				e[k] = new Nodo(gabbie.get(value), true, false, true);
+			}else {
+				e[k] = new Nodo(gabbie.get(value), true, false, false);
+			}
 			gabbie.remove(value);
 		}
 	}
@@ -36,8 +42,7 @@ public class Mappa {
 		for(int k = 0; k < e.length; k++) {
 			// prova per schema mappa
 			// OK: schema corretto
-			
-			e[k] = new Nodo(gabbie.get(0), true, false, false);
+			e[k] = new Nodo(gabbie.get(0), true, false, true);
 			gabbie.remove(0);	
 		}
 	}
@@ -168,7 +173,49 @@ public class Mappa {
 		
 		System.out.println(problem);
 		
+		String nonVisitati = "";
+		for (int k = 0; k < e.length; k++) {
+			if (e[k].isGol() && !(e[k].isPartenza())) {
+				nonVisitati = e[k].getNome();
+				problem += "\n\t\t(" + "not-visited " + nonVisitati + ")";
+			}
+		}
+		
+		problem += "\n\t\t(" + "in " + partenza + ")";
+		problem += "\n\t\t(" + "starting " + partenza + ")";
+		
+		String fine = "";
+		for (int k = 0; k < e.length; k++) {
+			if (e[k].isFine()) {
+				fine = e[k].getNome();
+			}
+		}
+		
+		problem += "\n\t\t(" + "finishing " + fine + ")";
+		problem += "\n\t\t(not-complete)";
+		
+		problem += "\n\t(:goal (and ";
+		
+		String gol = "";
+		for (int k = 0; k < e.length; k++) {
+			if (e[k].isGol()) {
+				gol = e[k].getNome();
+				problem += "(" + "visited " + gol + ") ";
+			}
+		}
+		problem += "(complete) ";
+		
+		problem += "))";
 				
+		problem += "\n)";
+		
+		
+		
+		
+		
+		
+		
+		System.out.println(problem);
 		// Parse the domain and the problem
 	    ErrorManager errorManager;
 		try {
