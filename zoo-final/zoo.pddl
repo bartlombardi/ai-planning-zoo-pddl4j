@@ -5,8 +5,7 @@
     (visitor ?v)                ; v è un visitatore
     (camel ?c)                  ; c è un cammello
     (riding ?visitor ?thing)    ; il visitatore sta andando su qualcosa
-    (mobile ?thing)             ; thing è mobile (probabilmente superfluo
-                                ; rispetto a riding ma lo lasiamo)
+    (mobile ?thing)             
 
     (road ?from ?to)            ; sentiero
     (shadow ?from ?to)          ; ombra
@@ -60,7 +59,6 @@
           (not (mobile ?visitor)))
   )
 
-  ; attenzione qui riding non c'è
   (:action Ride-Camel
     :parameters (?visitor ?camel ?from ?to)
     :precondition (and (camelroad ?from ?to)

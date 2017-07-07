@@ -20,11 +20,11 @@ public class Edge {
 		
 		// Type of the non oriented edge
 		syntax += "(" + this.type + " " + head.getName() + " " + tail.getName() + ")";
-		syntax += "(" + this.type + " " + tail.getName() + " " + head.getName() + ")";
+		syntax += " (" + this.type + " " + tail.getName() + " " + head.getName() + ")";
 		
 		// Initial state predicate
-		syntax += "(" + this.initialPredicate + " " + head.getName() + " " + tail.getName() + ")";
-		syntax += "(" + this.initialPredicate + " " + tail.getName() + " " + head.getName() + ")";
+		syntax += " (" + this.initialPredicate + " " + head.getName() + " " + tail.getName() + ")";
+		syntax += " (" + this.initialPredicate + " " + tail.getName() + " " + head.getName() + ")";
 		
 		return syntax;
 	}
